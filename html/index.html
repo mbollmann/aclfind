@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang=en-us>
+  <head><meta charset=utf-8><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><!--[if IEMobile]><meta http-equiv=cleartype content=on><![endif]-->
+    <title>ACL Anthology Search Prototype</title>
+    <link href=/aclicon.ico rel="shortcut icon" type=image/x-icon>
+    <link rel=stylesheet href=/css/main.min.200d01a437e018e54153eeb07703db6e7eb464678ee371b16b2bc878cbd696af.css media=screen>
+    <link rel=stylesheet href=https://use.fontawesome.com/releases/v5.7.2/css/all.css integrity=sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr crossorigin=anonymous>
+    <link rel=stylesheet href=/css/academicons.min.css>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel=stylesheet href=/css/bootstrap-datepicker3.min.css>
+    <style>
+      #as-results-container em {
+          font-style: normal;
+          background-color: #ff0;
+          color: #444;
+      }
+      #as-authorresults-container em {
+          font-style: normal;
+          background-color: #ff0;
+          color: #444;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light bg-gradient-light shadow-sm py-0 mb-3 mb-md-4 mb-xl-5">
+      <div id=navbar-container class=container><a class=navbar-brand href="/"><img src=/images/acl-logo.svg width=56 alt="ACL Logo" />
+          <span class="d-none d-md-inline pl-md-2">ACL Anthology — Search Prototype</span></a>
+      </div>
+    </nav>
+    <div id=main-container class=container>
+      <section id=main>
+        <form>
+          <div class="form-row mb-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text"><i class="fas fa-search"></i></div>
+              </div>
+              <input id="acl-search-box" class="form-control" name="q" type="search" placeholder="Search..." aria-label="Search">
+            </div>
+          </div>
+          <a href="#acl-search-advanced" data-toggle="collapse" role="button">Advanced options...</a>
+
+          <div class="collapse pt-1" id="acl-search-advanced">
+            <div class="form-inline mb-2">
+              <label class="mr-2" for="acl-search-year-cond">Year of publication</label>
+              <select id="acl-search-year-cond" class="custom-select mr-2">
+                <option value="gt">at least (≥)</option>
+                <option value="lt">at most (≤)</option>
+                <option value="eq">equals (=)</option>
+              </select>
+              <div class="input-group">
+                <input id="acl-search-year" class="date-year form-control" type="text">
+                <div class="input-group-append">
+                  <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+              </div>
+              <span class="flex-fill"> </span>
+              <a class="btn btn-info" href="#" id="acl-fulltext-search">Search in PDF text only (via Google CSE)...</a>
+            </div>
+            <div class="form-inline mb-2">
+              <label class="mr-2" for="acl-search-limit">Show up to</label>
+              <select id="acl-search-limit" class="custom-select mr-2">
+                <option value="20" selected>20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <label>results.</label>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <p>
+          <span id="as-num-results">—</span> results in <span id="as-duration">—</span>ms
+        </p>
+        <div class=row>
+          <div id="as-authorresults-container" class=col-lg-12>
+          </div> <!-- col-lg-12 -->
+          <div id="as-results-container" class=col-lg-12>
+          </div> <!-- col-lg-12 -->
+        </div> <!-- row -->
+
+</section></div>
+
+    <div class="d-none">
+      <div id="as-result-template">
+        <div class="d-sm-flex align-items-stretch mb-2 mb-lg-3">
+              <span class="d-block mr-2 text-nowrap" style="min-width: 2.2em;">
+                <a class="meili-pdf badge badge-primary align-middle mr-1" href=https://www.aclweb.org/anthology/P19-1001.pdf data-toggle=tooltip data-placement=top title="Open PDF">pdf</a>
+                <!--
+                <a class="badge badge-secondary align-middle mr-1" href=/anthology/P19-1001.bib data-toggle=tooltip data-placement=top title="Export to BibTeX">bib</a>
+                <a class="badge badge-info align-middle mr-1" href=#abstract-P19-1001 data-toggle=collapse aria-expanded=false aria-controls=abstract-P19-1001 title="Show Abstract">abs</a>
+                -->
+                <br class="d-none d-sm-inline-block"/>
+              </span>
+          <div class="d-block">
+            <strong><a class="meili-title align-middle">—</a></strong>
+            <br/><span class="meili-year"></span>. <span class="meili-authors pl-1">—</span>
+            <br/><span class="meili-venue text-muted">—</span>
+
+            <p class="meili-abstract mt-2 mb-0 pl-2 small text-muted" style="border-left: 4px solid #6c757d78; border-bottom-left-radius: 4px;"></p>
+          </div>
+
+          <!--
+              <div class="d-block">
+                <img class="meili-thumbnail" src=https://aclweb.org/anthology/thumb/P19-1001.jpg width="200px"/>
+              </div>
+          -->
+        </div>
+      </div>
+
+      <div id="as-authorresult-template">
+        <div class="d-sm-flex align-items-stretch mb-2 mb-lg-3">
+              <span class="d-block mr-2 text-nowrap" style="min-width: 2.2em;">
+                <a class="meili-authoricon badge badge-primary align-middle mr-1" href=https://www.aclweb.org/anthology/P19-1001.pdf data-toggle=tooltip data-placement=top title="Go to author page"><i class="fas fa-user-alt"></i></a>
+                <br class="d-none d-sm-inline-block"/>
+              </span>
+          <div class="d-block">
+            <strong><a class="meili-author align-middle">—</a></strong>
+            <br/><span class="text-muted"><span class="meili-pubcount">—</span> publication<span class="meili-pubcount-plural">s</span></span>
+          </div>
+
+          <!--
+              <div class="d-block">
+                <img class="meili-thumbnail" src=https://aclweb.org/anthology/thumb/P19-1001.jpg width="200px"/>
+              </div>
+          -->
+        </div>
+      </div>
+
+    </div>
+
+<footer class="bg-gradient-light py-2 py-xl-3 mt-3 mt-md-4 mt-xl-5"><div class=container>
+    <p class="text-muted small px-1">Prototype created by <a href=https://marcel.bollmann.me/>Marcel Bollmann</a> and powered by <a href=https://www.meilisearch.com/>MeiliSearch</a>.</p></div></footer>
+
+<script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js integrity=sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut crossorigin=anonymous></script>
+<script src=https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js integrity=sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k crossorigin=anonymous></script>
+<script src=/js/bootstrap-datepicker.min.js></script>
+<script src=/js/search.js></script>
+</body></html>
