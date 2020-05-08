@@ -78,7 +78,7 @@ function doSearch(e) {
     }
     var limit = $("#acl-search-limit").val();
 
-    let theUrl = `${baseUrl}/indexes/papers/search?q=${query}&attributesToHighlight=*&limit=${limit}`;
+    let theUrl = `${baseUrl}/indexes/papers/search?q=${query}&attributesToHighlight=*&attributesToCrop=abstract&limit=${limit}`;
     if (filterExpr) {
         theUrl += "&filters=" + encodeURIComponent(filterExpr);
     }
@@ -106,6 +106,13 @@ function doSearch(e) {
             $("#as-results-container").empty();
 
             for (result of httpResults.hits) {
+                if (result.abstract.substring(0, 10) != result._formatted.abstract.substring(0, 10)) {
+                    result._formatted.abstract = "... " + result._formatted.abstract;
+                }
+                if (result.abstract.substring(result.abstract.length - 10) != result._formatted.abstract.substring(result._formatted.abstract.length - 10)) {
+                    result._formatted.abstract = result._formatted.abstract + " ...";
+                }
+
                 const element = {...result, ...result._formatted };
                 delete element._formatted;
 
