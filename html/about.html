@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang=en-us>
+  <head><meta charset=utf-8><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><!--[if IEMobile]><meta http-equiv=cleartype content=on><![endif]-->
+    <title>ACL Anthology Search Prototype</title>
+    <link href=/aclicon.ico rel="shortcut icon" type=image/x-icon>
+    <link rel=stylesheet href=/css/main.min.200d01a437e018e54153eeb07703db6e7eb464678ee371b16b2bc878cbd696af.css media=screen>
+    <link rel=stylesheet href=https://use.fontawesome.com/releases/v5.7.2/css/all.css integrity=sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr crossorigin=anonymous>
+    <link rel=stylesheet href=/css/academicons.min.css>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel=stylesheet href=/css/bootstrap-datepicker3.min.css>
+    <style>
+      #as-results-container em {
+          font-style: normal;
+          background-color: #ff0;
+          color: #444;
+      }
+      #as-authorresults-container em {
+          font-style: normal;
+          background-color: #ff0;
+          color: #444;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light bg-gradient-light shadow-sm py-0 mb-3 mb-md-4 mb-xl-5">
+      <div id=navbar-container class=container><a class=navbar-brand href="/"><img src=/images/acl-logo.svg width=56 alt="ACL Logo" />
+          <span class="d-none d-md-inline pl-md-2">ACL Anthology — Search Prototype</span></a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/about.html">What is this?</a>
+              </li>
+            </ul>
+          </div>
+
+      </div>
+    </nav>
+    <div id=main-container class=container>
+      <section id=main>
+
+<h1 id="what-is-this">What is this?</h1>
+<p>This site hosts a prototype of a search engine for the <a href="https://www.aclweb.org/anthology/">ACL Anthology</a>. Here’s what it can (and cannot) do:</p>
+<ul>
+<li><p>It <strong>searches in author, title, and abstracts</strong> of <em>all</em> papers in the ACL Anthology. In addition to papers, it also returns matching author profile pages (though this is currently limited to the top five results).</p></li>
+<li><p>It <strong style="text-decoration:underline;">cannot perform fulltext search within papers.</strong>
+The search engine backend, <a href="https://www.meilisearch.com/">MeiliSearch</a>, isn’t really intended for this kind of task, so while it’s theoretically possible to add the fulltext of all PDFs, performance will likely suffer a lot. I have tried to do this, but the database becomes too large (10GB+) to host with my current hosting provider.</p></li>
+<li><p>It can currently <em>only</em> <strong>sort by relevance.</strong> For example, it’s not possible to sort results by year of publication. That cannot currently be implemented with the MeiliSearch backend, but this might change with future releases.</p></li>
+<li><p>It does not currently support any advanced <strong>query syntax.</strong> For example, you can’t search <em>only</em> in titles, or <em>only</em> in abstracts. This is just due to my laziness to build an interface for it, and could be added in the future. The same goes for <strong>pagination</strong> in order to browse more than just the first <em>n</em> results.</p></li>
+</ul>
+<h2 id="where-do-the-abstracts-come-from">Where do the abstracts come from?</h2>
+<p>The ACL Anthology currently only has abstracts for the most recent conferences (<a href="https://www.aclweb.org/anthology/P19-1001/">example</a>). For this search engine demo, I heuristically extracted abstracts for 38,523 additional papers by combining data from the <a href="https://acl-arc.comp.nus.edu.sg/">ACL Anthology Reference Corpus</a> and my own hacky pipeline of extracting abstracts from PDFs.</p>
+<p>The results are <strong>noisy and imperfect</strong>, which is why they are not part of the official ACL Anthology yet. <a href="https://github.com/acl-org/acl-anthology/issues/395">We are working on it, though.</a></p>
+<h2 id="how-does-this-work">How does this work?</h2>
+<p>The <a href="https://github.com/mbollmann/aclfind">source code for this website is on GitHub</a>.</p>
+<p>It relies on <a href="https://www.meilisearch.com/">MeiliSearch</a>, a search engine backend written in Rust that is intended to be simple to set up and use. The data comes from the <a href="https://github.com/acl-org/acl-anthology/">official ACL Anthology repository</a> and is indexed into MeiliSearch by <a href="https://github.com/mbollmann/aclfind/blob/master/bin/seed_meilisearch.py">a relatively simple Python script</a>. Finally, the search engine and its frontpage are hosted by the amazing <a href="https://uberspace.de/en/">Uberspace</a>.</p>
+<h2 id="why-isnt-this-part-of-the-acl-anthology-website">Why isn’t this part of the ACL Anthology website?</h2>
+<p>First, this is a prototype (for now).</p>
+<p>Second, we are currently still looking into different options and alternatives for a better search engine than <a href="https://www.aclweb.org/anthology/search/?q=bert">the current Google-based one we have</a>.</p>
+<p>Third, and maybe most importantly, this solution requires running additional server-side software, which makes it non-trivial to set up. (The current ACL Anthology website consists only of static HTML pages.)</p>
+<h2 id="who-made-this">Who made this?</h2>
+<p>I’m <a href="https://marcel.bollmann.me/">Marcel Bollmann</a>, and I’ve already worked a lot on the ACL Anthology website when it got a makeover in the beginning of 2019. I’m happy to take feedback on this prototype, ideally via <a href="https://github.com/mbollmann/aclfind/issues">GitHub</a> or <a href="https://twitter.com/mmbollmann">Twitter</a>!</p>
+
+      </section>
+    </div>
+
+<footer class="bg-gradient-light py-2 py-xl-3 mt-3 mt-md-4 mt-xl-5"><div class=container>
+    <p class="text-muted small px-1">Prototype created by <a href=https://marcel.bollmann.me/>Marcel Bollmann</a> and powered by <a href=https://www.meilisearch.com/>MeiliSearch</a>.</p></div></footer>
+
+<script src=https://code.jquery.com/jquery-3.3.1.slim.min.js integrity=sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo crossorigin=anonymous></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js integrity=sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut crossorigin=anonymous></script>
+<script src=https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js integrity=sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k crossorigin=anonymous></script>
+<script src=/js/bootstrap-datepicker.min.js></script>
+</body></html>
