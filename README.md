@@ -2,7 +2,7 @@
 
 A search engine prototype for the ACL Anthology.
 
-Currently hosted at [https://aclfind.uber.space/](https://aclfind.uber.space/).
+~Currently hosted at [https://aclfind.uber.space/](https://aclfind.uber.space/).~
 
 ## Installation
 
